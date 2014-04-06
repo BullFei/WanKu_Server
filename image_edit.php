@@ -8,13 +8,15 @@ if (!isset($_SESSION['admin_name'])) {
 
 define("FROMPAGE",true);
  include("/tool/sql.php");
-  $sql1="select * from game_main_info where id=(select max(id) from game_main_info)";
-  $query=mysql_query($sql1);
+
+ @$serch_no=intval($_GET['id']); 
+  $SQL="SELECT * FROM `game_main_info` where id = $serch_no";
+  $query=mysql_query($SQL);
   @$row=mysql_fetch_array(@$query);
-  $imgid=$row[@id]+1;
+
 
 ?>
-<html lang="zh-cn"> 
+<html lang="zh-cn">
 <head>
 	<meta charset="utf-8">
 	<title>玩库管理平台</title>
@@ -45,7 +47,7 @@ define("FROMPAGE",true);
 				<ul class="nav nav-pills nav-stacked">
 					<li><a href="dashboard.php">首页</a></li>
 					<li><a href="listgame.php">查看游戏列表</a></li>
-					<li class="active"><a href="addgame.php">增加游戏</a></li>
+					<li><a href="addgame.php">增加游戏</a></li>
 					<li><a href="recommend.php">推荐管理</a></li>
 					<li><a href="listadmin.php">管理员列表</a></li>
 					<li><a href="image.php">图片管理</a></li>
@@ -53,22 +55,31 @@ define("FROMPAGE",true);
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<form>
+				<form action="" enctype="multipart/form-data" method="post" name="upform">
 					<div class="form-group">
-						<label for="exampleInputEmail1">游戏名：</label>
-						<input type="email" class="form-control" id="exampleInputEmail1">
+						<label >游戏名：</label>
+						<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row[name]); ?>">
 					</div>
+
 					<label for="exampleInputEmail1">游戏评语：</label>
-					<textarea class="form-control" rows="3"></textarea>
+					<textarea class="form-control" rows="3"><?php echo htmtocode(@$row[cmt]); ?></textarea>
+					
 					<div class="form-group">
 						<label for="exampleInputFile">游戏主截图：</label>
-						<input type="file" id="exampleInputFile">
+						<img src="<?php echo htmtocode(@$row[img]); ?>">
+						
 					</div>
 					
+					
+						<label >上传新的游戏主截图：</label>
+						<input type="file"  name="newimage">
+					
+					
 					<center>
-					<button type="submit" class="btn btn-default">提交</button>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+					<input type="submit" class="btn btn-default" name="submit" value="提交">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 					<button type="reset" class="btn btn-default">重置</button>
 					</center>
+					
 				</form>
 
 			</div>
@@ -92,3 +103,36 @@ function checkAll(flag)
 
 </SCRIPT>
 </html>
+<?php
+
+
+if (is_uploaded_file(@$_FILES['newimage']['tmp_name'])){
+
+$upfile=$_FILES["newimage"];
+
+$name = "main-22.jpg";
+$type = $upfile["type"];
+$size = $upfile["size"];
+$tmp_name = $upfile["tmp_name"];
+$error = $upfile["error"];
+
+
+switch ($type) {
+	case 'image/pjpeg' : $ok=1;
+		break;
+	case 'image/jpeg' : $ok=1;
+		break;
+	case 'image/gif' : $ok=1;
+		break;
+	case 'image/png' : $ok=1;
+		break;
+}
+
+if($ok && $error=='0'){
+ @move_uploaded_file($tmp_name,'G:\Git\WanKu_Server\uploads/'.$name);
+ echo "<script language=\"javascript\">alert('上传成功');history.go(-1)</script>";
+}
+}
+
+
+?>

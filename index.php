@@ -33,7 +33,7 @@ include "tool/passwdmd5.php"
             session_start();
             session_cache_expire(10);
             $_SESSION['admin_name']=$user;
-            header("location:http:/dashboard.php");  
+            header("location:http:dashboard.php");  
           }
           else
           {

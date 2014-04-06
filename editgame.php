@@ -48,6 +48,7 @@ define("FROMPAGE",true);
 					<li><a href="addgame.php">增加游戏</a></li>
 					<li><a href="recommend.php">推荐管理</a></li>
 					<li><a href="listadmin.php">管理员列表</a></li>
+					<li><a href="image.php">图片管理</a></li>
 					<li><a href="other.php">其他</a></li>
 				</ul>
 			</div>

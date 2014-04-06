@@ -6,13 +6,11 @@ if (!isset($_SESSION['admin_name'])) {
 	header("location:index.php");
 }
 
-
 define("FROMPAGE",true);
  include("/tool/sql.php");
 
-  $SQL="SELECT admin_id FROM `admin_info` order by admin_id ";
+  $SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` order by id desc";
   $query=mysql_query($SQL);
-
 ?>
 <html lang="zh-cn">
 <head>
@@ -41,62 +39,51 @@ define("FROMPAGE",true);
 		<div class="row-fluid">
 			<div class="col-md-2">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="active"><a href="dashboard.php">首页</a></li>
+					<li><a href="dashboard.php">首页</a></li>
 					<li><a href="listgame.php">查看游戏列表</a></li>
 					<li><a href="addgame.php">增加游戏</a></li>
 					<li><a href="recommend.php">推荐管理</a></li>
 					<li><a href="listadmin.php">管理员列表</a></li>
-					<li><a href="image.php">图片管理</a></li>
+					<li class="active"><a href="image.php">图片管理</a></li>
 					<li><a href="other.php">其他</a></li>
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<table class="table table-condensed table-striped table-hover" contenteditable="true">
+				<table class="table table-condensed table-striped table-hover" >
 					<thead>
 						<tr>
 							<th><input type="checkbox" onclick="checkAll(this)"></th>
 							<th>编号</th>
-							<th>产品</th>
-							<th>交付时间</th>
+							<th>游戏名</th>
 							<th>状态</th>
+							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr style="background-color:#999999;">
+						<?php while(@$row=mysql_fetch_array($query)){ 
+							if ($row[@id]%2==0) {
+								echo '<tr style="background-color:#999999;">';
+							}
+							else
+								echo '<tr style="background-color:#cccccc;">';
+							?>   
+						
 							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>TB - Monthly</td>
-							<td>01/04/2012</td>
-							<td>Default</td>
+							<td><?php echo htmtocode(@$row[id]); ?></td>
+							<td><a href="image_select.php?id=<?php echo @$row[id];?>"> <?php echo htmtocode(@$row[name]); ?></a></td>
+
+							<?php
+							if (@$row[invalid]) {
+								echo '<td ><img src="img/s_okay.png" alt="数据完整"></td>';
+							}
+							else
+								echo '<td ><img src="img/s_error.png" alt="图片上传不完整"></td>';
+							?>
+							<td><a href="image_edit.php?id=<?php echo @$row[id];?>">    &nbsp 修改图片</a><a href="#">    &nbsp 删除图片</a><a href="#">    &nbsp 添加图片</a></td>
 						</tr>
-						<tr style="background-color:#cccccc;">
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>TB - Monthly</td>
-							<td>01/04/2012</td>
-							<td>Approved</td>
-						</tr>
-						<tr style="background-color:#999999;">
-							<td><input type="checkbox"></td>
-							<td>2</td>
-							<td>TB - Monthly</td>
-							<td>02/04/2012</td>
-							<td>Declined</td>
-						</tr>
-						<tr style="background-color:#cccccc;" >
-							<td><input type="checkbox"></td>
-							<td>3</td>
-							<td>TB - Monthly</td>
-							<td>03/04/2012</td>
-							<td>Pending</td>
-						</tr>
-						<tr style="background-color:#999999;">
-							<td><input type="checkbox"></td>
-							<td>4</td>
-							<td>TB - Monthly</td>
-							<td>04/04/2012</td>
-							<td>Call in to confirm</td>
-						</tr>
+				    <?php
+					}
+					 ?>
 					</tbody>
 				</table>
 
