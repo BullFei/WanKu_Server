@@ -48,7 +48,7 @@ define("FROMPAGE",true);
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<table class="table table-condensed table-striped table-hover" contenteditable="true">
+				<table class="table table-condensed table-striped table-hover">
 					<thead>
 						<tr>
 							<th><input type="checkbox" onclick="checkAll(this)"></th>
@@ -62,7 +62,7 @@ define("FROMPAGE",true);
 					</thead>
 					<tbody>
 						<?php while(@$row=mysql_fetch_array($query)){ 
-							if ($row[@id]%2==0) {
+							if ($row[@admin_id]%2==0) {
 								echo '<tr style="background-color:#999999;">';
 							}
 							else
