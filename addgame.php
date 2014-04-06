@@ -8,11 +8,13 @@ if (!isset($_SESSION['admin_name'])) {
 
 define("FROMPAGE",true);
  include("/tool/sql.php");
+  $sql1="select * from game_main_info where id=(select max(id) from game_main_info)";
+  $query=mysql_query($sql1);
+  @$row=mysql_fetch_array(@$query);
+  $imgid=$row[@id]+1;
 
-  $SQL="SELECT admin_id,admin_name,admin_password,admin_privileges FROM `admin_info` order by admin_id ";
-  $query=mysql_query($SQL);
 ?>
-<html lang="zh-cn">
+<html lang="zh-cn"> 
 <head>
 	<meta charset="utf-8">
 	<title>玩库管理平台</title>
@@ -32,7 +34,9 @@ define("FROMPAGE",true);
 					<h1>
 						玩 库 <small>后台管理平台</small>
 					</h1>
-					
+					<?php
+ 					echo'<p style="float: right;font-size:20px;margin-top: -26px;">欢迎你,'.$_SESSION['admin_name'].'&nbsp<a href="logout.php" >退出</a></p>'
+					?>
 				</div>
 			</div>
 		</div>

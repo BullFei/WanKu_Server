@@ -9,9 +9,10 @@ if (!isset($_SESSION['admin_name'])) {
 define("FROMPAGE",true);
  include("/tool/sql.php");
 
-  $SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` order by id desc";
-
+ @$serch_no=intval($_GET['id']); 
+  $SQL="SELECT * FROM `game_main_info` where id = $serch_no";
   $query=mysql_query($SQL);
+  @$row=mysql_fetch_array(@$query);
 ?>
 <html lang="zh-cn">
 <head>
@@ -33,7 +34,9 @@ define("FROMPAGE",true);
 					<h1>
 						玩 库 <small>后台管理平台</small>
 					</h1>
-					
+					<?php
+ 					echo'<p style="float: right;font-size:20px;margin-top: -26px;">欢迎你,'.$_SESSION['admin_name'].'&nbsp<a href="logout.php" >退出</a></p>'
+					?>
 				</div>
 			</div>
 		</div>
@@ -52,13 +55,13 @@ define("FROMPAGE",true);
 				<form>
 					<div class="form-group">
 						<label for="exampleInputEmail1">游戏名：</label>
-						<input type="email" class="form-control" id="exampleInputEmail1">
+						<input type="email" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row[name]); ?>">
 					</div>
 					<label for="exampleInputEmail1">游戏评语：</label>
-					<textarea class="form-control" rows="3"></textarea>
+					<textarea class="form-control" rows="3"><?php echo htmtocode(@$row[cmt]); ?></textarea>
 					<div class="form-group">
 						<label for="exampleInputFile">游戏主截图：</label>
-						<input type="email" class="form-control" id="exampleInputEmail1">
+						<input type="email" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row[img]); ?>">
 					</div>
 					
 					<center>

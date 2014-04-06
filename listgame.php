@@ -70,7 +70,7 @@ define("FROMPAGE",true);
 						
 							<td><input type="checkbox"></td>
 							<td><?php echo htmtocode(@$row[id]); ?></td>
-							<td><a href="editgame.php"><?php echo htmtocode(@$row[name]); ?></a></td>
+							<td><a href="http://localhost/walk/phplocal/demos/wanku_admin/editgame.php?id=<?php echo @$row[id];?>"><?php echo htmtocode(@$row[name]); ?></a></td>
 							<td><?php echo htmtocode(@$row[cmt]); ?></td>
 							<td><?php echo htmtocode(@$row[img]); ?></td>
 							<?php
