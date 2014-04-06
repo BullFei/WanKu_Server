@@ -49,7 +49,7 @@ define("FROMPAGE",true);
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<table class="table table-condensed table-striped table-hover" contenteditable="true">
+				<table class="table table-condensed table-striped table-hover">
 					<thead>
 						<tr>
 							<th><input type="checkbox" onclick="checkAll(this)"></th>
