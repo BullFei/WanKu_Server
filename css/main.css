@@ -1,0 +1,16 @@
+body {
+  background-color: #ffffff;
+  background:url(http://wanku-img-data.qiniudn.com/main-classy_fabric.png);
+  background-repeat : repeat | no-repeat | repeat-x | repeat-y;
+  background-attachment: fixed;
+}
+h1, h3, h4, h5, h6, p, label,legend{
+  color: #ffffff;
+  text-shadow: 2px 2px 0 transparent,4px 4px 0 #101010;
+  font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
+}
+thead {
+	background-color: #428bca;
+}
+
+
