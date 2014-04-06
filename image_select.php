@@ -9,8 +9,10 @@ if (!isset($_SESSION['admin_name'])) {
 define("FROMPAGE",true);
  include("/tool/sql.php");
 
-  $SQL="SELECT admin_id,admin_name,admin_password,admin_privileges FROM `admin_info` order by admin_id ";
+ @$serch_no=intval($_GET['id']); 
+  $SQL="SELECT * FROM `game_main_info` where id = $serch_no";
   $query=mysql_query($SQL);
+  @$row=mysql_fetch_array(@$query);
 ?>
 <html lang="zh-cn">
 <head>
@@ -19,6 +21,8 @@ define("FROMPAGE",true);
 	
 	<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
 	<link href="css/main.css" rel="stylesheet">
+<!-- 	<link href="css/addgame.css" rel="stylesheet"> -->
+
 
 </head>
 
@@ -43,45 +47,27 @@ define("FROMPAGE",true);
 					<li><a href="listgame.php">查看游戏列表</a></li>
 					<li><a href="addgame.php">增加游戏</a></li>
 					<li><a href="recommend.php">推荐管理</a></li>
-					<li class="active"><a href="listadmin.php">管理员列表</a></li>
+					<li><a href="listadmin.php">管理员列表</a></li>
 					<li><a href="image.php">图片管理</a></li>
 					<li><a href="other.php">其他</a></li>
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<table class="table table-condensed table-striped table-hover">
-					<thead>
-						<tr>
-							<th><input type="checkbox" onclick="checkAll(this)"></th>
-							<th>管理员编号</th>
-							<th>管理员名字</th>
-							<th>管理员密码</th>
-							<th>管理员权限</th>
-							<th>操作</th>
-
-						</tr>
-					</thead>
-					<tbody>
-						<?php while(@$row=mysql_fetch_array($query)){ 
-							if ($row[@admin_id]%2==0) {
-								echo '<tr style="background-color:#999999;">';
-							}
-							else
-								echo '<tr style="background-color:#cccccc;">';
-							?>   
+				<form>
+					<div class="form-group">
+						<label for="exampleInputEmail1">游戏名：</label>
+						<input type="email" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row[name]); ?>">
+					</div>
+					<label for="exampleInputEmail1">游戏评语：</label>
+					<textarea class="form-control" rows="3"><?php echo htmtocode(@$row[cmt]); ?></textarea>
+					<div class="form-group">
+						<label for="exampleInputFile">游戏主截图：</label>
+						<img src="<?php echo htmtocode(@$row[img]); ?>">
 						
-							<td><input type="checkbox"></td>
-							<td><?php echo htmtocode(@$row[admin_id]); ?></td>
-							<td><?php echo htmtocode(@$row[admin_name]); ?></td>
-							<td><?php echo htmtocode(@$row[admin_password]); ?></td>
-							<td><?php echo htmtocode(@$row[admin_privileges]); ?></td>
-							<td>111</td>
-						</tr>
-				    <?php
-					}
-					 ?>
-					</tbody>
-				</table>
+					</div>
+					
+					
+				</form>
 
 			</div>
 		</div>
@@ -94,12 +80,12 @@ define("FROMPAGE",true);
 
 function checkAll(flag)
 {
-    var input = document.getElementsByTagName("input");
-    for (var i=0;i<input.length ;i++ )
-    {
-        if(input[i].type=="checkbox")
-            input[i].checked = flag.checked;
-    }
+	var input = document.getElementsByTagName("input");
+	for (var i=0;i<input.length ;i++ )
+	{
+		if(input[i].type=="checkbox")
+			input[i].checked = flag.checked;
+	}
 }
 
 </SCRIPT>

@@ -9,7 +9,7 @@ if (!isset($_SESSION['admin_name'])) {
 define("FROMPAGE",true);
  include("/tool/sql.php");
 
-  $SQL="SELECT admin_id,admin_name,admin_password,admin_privileges FROM `admin_info` order by admin_id ";
+  $SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` order by id desc";
   $query=mysql_query($SQL);
 ?>
 <html lang="zh-cn">
@@ -43,27 +43,25 @@ define("FROMPAGE",true);
 					<li><a href="listgame.php">查看游戏列表</a></li>
 					<li><a href="addgame.php">增加游戏</a></li>
 					<li><a href="recommend.php">推荐管理</a></li>
-					<li class="active"><a href="listadmin.php">管理员列表</a></li>
-					<li><a href="image.php">图片管理</a></li>
+					<li><a href="listadmin.php">管理员列表</a></li>
+					<li class="active"><a href="image.php">图片管理</a></li>
 					<li><a href="other.php">其他</a></li>
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<table class="table table-condensed table-striped table-hover">
+				<table class="table table-condensed table-striped table-hover" >
 					<thead>
 						<tr>
 							<th><input type="checkbox" onclick="checkAll(this)"></th>
-							<th>管理员编号</th>
-							<th>管理员名字</th>
-							<th>管理员密码</th>
-							<th>管理员权限</th>
+							<th>编号</th>
+							<th>游戏名</th>
+							<th>状态</th>
 							<th>操作</th>
-
 						</tr>
 					</thead>
 					<tbody>
 						<?php while(@$row=mysql_fetch_array($query)){ 
-							if ($row[@admin_id]%2==0) {
+							if ($row[@id]%2==0) {
 								echo '<tr style="background-color:#999999;">';
 							}
 							else
@@ -71,11 +69,17 @@ define("FROMPAGE",true);
 							?>   
 						
 							<td><input type="checkbox"></td>
-							<td><?php echo htmtocode(@$row[admin_id]); ?></td>
-							<td><?php echo htmtocode(@$row[admin_name]); ?></td>
-							<td><?php echo htmtocode(@$row[admin_password]); ?></td>
-							<td><?php echo htmtocode(@$row[admin_privileges]); ?></td>
-							<td>111</td>
+							<td><?php echo htmtocode(@$row[id]); ?></td>
+							<td><a href="image_select.php?id=<?php echo @$row[id];?>"> <?php echo htmtocode(@$row[name]); ?></a></td>
+
+							<?php
+							if (@$row[invalid]) {
+								echo '<td ><img src="img/s_okay.png" alt="数据完整"></td>';
+							}
+							else
+								echo '<td ><img src="img/s_error.png" alt="图片上传不完整"></td>';
+							?>
+							<td><a href="image_edit.php?id=<?php echo @$row[id];?>">    &nbsp 修改图片</a><a href="#">    &nbsp 删除图片</a><a href="#">    &nbsp 添加图片</a></td>
 						</tr>
 				    <?php
 					}

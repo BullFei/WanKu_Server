@@ -62,6 +62,7 @@ $query=mysql_query($SQL);
 					<li><a href="addgame.php">增加游戏</a></li>
 					<li><a href="recommend.php">推荐管理</a></li>
 					<li><a href="listadmin.php">管理员列表</a></li>
+					<li><a href="image.php">图片管理</a></li>
 					<li><a href="other.php">其他</a></li>
 				</ul>
 			</div>
@@ -88,7 +89,7 @@ $query=mysql_query($SQL);
 
 							<td><input type="checkbox"></td>
 							<td><?php echo htmtocode(@$row[id]); ?></td>
-							<td><a href="http://localhost/walk/phplocal/demos/wanku_admin/editgame.php?id=<?php echo @$row[id];?>"><?php echo htmtocode(@$row[name]); ?></a></td>
+							<td><a href="editgame.php?id=<?php echo @$row[id];?>"><?php echo htmtocode(@$row[name]); ?></a></td>
 							<td><?php echo htmtocode(@$row[cmt]); ?></td>
 							<td><?php echo htmtocode(@$row[img]); ?></td>
 							<?php
