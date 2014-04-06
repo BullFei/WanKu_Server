@@ -1,4 +1,16 @@
 <!Doctype html>
+<?php
+
+  session_start();
+if (!isset($_SESSION['admin_name'])) {
+	header("location:index.php");
+}
+
+
+define("FROMPAGE",true);
+ include("/tool/sql.php");
+
+ ?>
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8">
@@ -17,7 +29,9 @@
 					<h1>
 						玩 库 <small>后台管理平台</small>
 					</h1>
-					
+					<?php
+ 					echo'<p style="float: right;font-size:20px;margin-top: -26px;">欢迎你,'.$_SESSION['admin_name'].'&nbsp<a href="logout.php" >退出</a></p>'
+					?>
 				</div>
 			</div>
 		</div>
