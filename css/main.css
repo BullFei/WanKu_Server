@@ -31,3 +31,12 @@ thead {
 .manu .disabled {
 	BORDER-RIGHT: #eee 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #eee 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #eee 1px solid; COLOR: #ddd; PADDING-TOP: 2px; BORDER-BOTTOM: #eee 1px solid
 }
+
+.listfile { list-style: none; }
+.listfile li { display: inline-block; margin: 5px 10px 5px 0; border: 1px solid #ddd; padding: 10px; background: #fcfcfc; }
+.listfile li:hover { border-color: #bbb; }
+.listfile li a { display: block; }
+.listfile li a:hover { cursor: pointer; }
+.listfile li span.filename { display: block; margin-top: 5px; font-size: 11px; text-align: center; }
+.listfile li.selected { border-color: #3493f5; background: #eaf3fd; }
+.listfile img {width: 250px;height: 375px;}

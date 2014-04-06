@@ -1,16 +1,33 @@
 <!Doctype html>
 <?php
 
-  session_start();
+session_start();
 if (!isset($_SESSION['admin_name'])) {
 	header("location:index.php");
 }
 
 define("FROMPAGE",true);
- include("/tool/sql.php");
+include("/tool/sql.php");
 
-  $SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` order by id desc";
-  $query=mysql_query($SQL);
+//获取数据库总条目数
+$rows = @mysql_fetch_array(mysql_query("SELECT count(*) FROM game_main_info"));
+$sqltotal = @$rows[0];	
+
+$curpage = @$_GET[@page];
+$curid = $sqltotal - 10* ($curpage - 1);
+$totalpage = ceil($sqltotal / 10);
+
+
+if (empty($curpage)) {
+	$curpage = 1;
+	$SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` order by id desc limit 20";
+}
+else{
+	$SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` where id <= $curid order by id desc limit 20";
+}
+
+
+$query=mysql_query($SQL);
 ?>
 <html lang="zh-cn">
 <head>
@@ -31,7 +48,7 @@ define("FROMPAGE",true);
 						玩 库 <small>后台管理平台</small>
 					</h1>
 					<?php
- 					echo'<p style="float: right;font-size:20px;margin-top: -26px;">欢迎你,'.$_SESSION['admin_name'].'&nbsp<a href="logout.php" >退出</a></p>'
+					echo'<p style="float: right;font-size:20px;margin-top: -26px;">欢迎你,'.$_SESSION['admin_name'].'&nbsp<a href="logout.php" >退出</a></p>'
 					?>
 				</div>
 			</div>
@@ -49,44 +66,97 @@ define("FROMPAGE",true);
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<table class="table table-condensed table-striped table-hover" >
-					<thead>
-						<tr>
-							<th><input type="checkbox" onclick="checkAll(this)"></th>
-							<th>编号</th>
-							<th>游戏名</th>
-							<th>状态</th>
-							<th>操作</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php while(@$row=mysql_fetch_array($query)){ 
-							if ($row[@id]%2==0) {
-								echo '<tr style="background-color:#999999;">';
-							}
-							else
-								echo '<tr style="background-color:#cccccc;">';
-							?>   
-						
-							<td><input type="checkbox"></td>
-							<td><?php echo htmtocode(@$row[id]); ?></td>
-							<td><a href="image_select.php?id=<?php echo @$row[id];?>"> <?php echo htmtocode(@$row[name]); ?></a></td>
+				<ul class="listfile">
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="http://wanku-img-data.qiniudn.com/main-23.jpg-short" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="http://wanku-img-data.qiniudn.com/main-22.jpg-short" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+					<li>
+						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
+						<span class="filename">Image1.jpg</span>
+					</li>
+				</ul>
 
-							<?php
-							if (@$row[invalid]) {
-								echo '<td ><img src="img/s_okay.png" alt="数据完整"></td>';
-							}
-							else
-								echo '<td ><img src="img/s_error.png" alt="图片上传不完整"></td>';
-							?>
-							<td><a href="image_edit.php?id=<?php echo @$row[id];?>">    &nbsp 修改图片</a><a href="#">    &nbsp 删除图片</a><a href="#">    &nbsp 添加图片</a></td>
-						</tr>
-				    <?php
+				<div class="manu">
+					<?php 
+					if ($curpage==1||empty($curpage)) {
+						echo '<span class="disabled"> <  上一页</span>';
 					}
-					 ?>
-					</tbody>
-				</table>
-
+					else {
+						echo '<a href="?page='.($curpage-1).'"><  上一页 </a>';
+					}
+					if ($curpage-3>1) {
+						echo '...';
+						for ($i = $curpage - 3;$i <= $totalpage&&$i < $curpage + 5;$i ++ )
+						{
+							if ($i == $curpage) {
+								echo '<span class="current">'.$i.'</span>';
+							}
+							else {
+								echo '<a href="?page='.$i.'">'.$i.'</a>';
+							}
+						}
+					}
+					else {
+						for ($i = 1;$i <= $totalpage&&$i <= $curpage + 5;$i ++ )
+						{
+							if ($i == $curpage) {
+								echo '<span class="current">'.$i.'</span>';
+							}
+							else {
+								echo '<a href="?page='.$i.'">'.$i.'</a>';
+							}
+						}
+					}
+					if ( $curpage+5<=$totalpage){
+						echo '...';
+						echo '<a href="?page='.($totalpage-1).'">'.($totalpage-1).'</a>';
+						echo '<a href="?page='.$totalpage.'">'.$totalpage.'</a>';
+					}
+					if ($curpage==$totalpage) {
+						echo '<span class="disabled"> 下一页  ></span>';
+					}
+					else if (empty($curpage)) {
+						echo '<a href="?page=2">下一页  > </a>';
+					}
+					else {
+						echo '<a href="?page='.($curpage+1).'">下一页  > </a>';
+					}
+					?>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -98,12 +168,12 @@ define("FROMPAGE",true);
 
 function checkAll(flag)
 {
-    var input = document.getElementsByTagName("input");
-    for (var i=0;i<input.length ;i++ )
-    {
-        if(input[i].type=="checkbox")
-            input[i].checked = flag.checked;
-    }
+	var input = document.getElementsByTagName("input");
+	for (var i=0;i<input.length ;i++ )
+	{
+		if(input[i].type=="checkbox")
+			input[i].checked = flag.checked;
+	}
 }
 
 </SCRIPT>
