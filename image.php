@@ -13,17 +13,19 @@ include("/tool/sql.php");
 $rows = @mysql_fetch_array(mysql_query("SELECT count(*) FROM game_main_info"));
 $sqltotal = @$rows[0];	
 
+$itemcount = 10;
+
 $curpage = @$_GET[@page];
-$curid = $sqltotal - 10* ($curpage - 1);
-$totalpage = ceil($sqltotal / 10);
+$curid = $sqltotal - $itemcount * ($curpage - 1);
+$totalpage = ceil($sqltotal / $itemcount );
 
 
 if (empty($curpage)) {
 	$curpage = 1;
-	$SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` order by id desc limit 20";
+	$SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` order by id desc limit $itemcount ";
 }
 else{
-	$SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` where id <= $curid order by id desc limit 20";
+	$SQL="SELECT id,name,cmt,img,invalid FROM `game_main_info` where id <= $curid order by id desc limit $itemcount ";
 }
 
 
@@ -67,46 +69,18 @@ $query=mysql_query($SQL);
 			</div>
 			<div class="col-md-10">
 				<ul class="listfile">
+					<?php while(@$row=mysql_fetch_array($query)){
+						$str = $row[@img];
+						 $str2 = substr($str,34,7);
+						?>
+
 					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="http://wanku-img-data.qiniudn.com/main-23.jpg-short" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
+						<a href="image_edit.php?id=<?php echo @$row[id];?>" data-rel="image"><img src=<?php echo htmtocode(@$row[img]);?> alt="<?php echo htmtocode(@$row[name]);?>" /></a>
+						<span class="filename"><?php echo $str2;?></span>
 					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="http://wanku-img-data.qiniudn.com/main-22.jpg-short" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
-					<li>
-						<a href="ajax/image.html" data-rel="image"><img src="img/thumbs/image1.png" alt="" /></a>
-						<span class="filename">Image1.jpg</span>
-					</li>
+					<?php 
+				} 
+				?>
 				</ul>
 
 				<div class="manu">
