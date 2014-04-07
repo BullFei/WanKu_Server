@@ -8,6 +8,7 @@ if (!isset($_SESSION['admin_name'])) {
 
 define("FROMPAGE",true);
  include("/tool/sql.php");
+ include("/tool/img.php");
 
  @$serch_no=intval($_GET['id']); 
   $SQL="SELECT * FROM `game_main_info` where id = $serch_no";
@@ -73,7 +74,8 @@ define("FROMPAGE",true);
 					
 						<label >上传新的游戏主截图：</label>
 						<input type="file"  name="newimage">
-					
+					   <br/>
+					   <label><a href="image_delete.php?id=<?php echo htmtocode(@$row[id]); ?>">删除图片</a></label>
 					
 					<center>
 					<input type="submit" class="btn btn-default" name="submit" value="提交">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -104,35 +106,15 @@ function checkAll(flag)
 </SCRIPT>
 </html>
 <?php
-
-
-if (is_uploaded_file(@$_FILES['newimage']['tmp_name'])){
-
-$upfile=$_FILES["newimage"];
-
-$name = "main-22.jpg";
-$type = $upfile["type"];
-$size = $upfile["size"];
-$tmp_name = $upfile["tmp_name"];
-$error = $upfile["error"];
-
-
-switch ($type) {
-	case 'image/pjpeg' : $ok=1;
-		break;
-	case 'image/jpeg' : $ok=1;
-		break;
-	case 'image/gif' : $ok=1;
-		break;
-	case 'image/png' : $ok=1;
-		break;
-}
-
-if($ok && $error=='0'){
- @move_uploaded_file($tmp_name,'G:\Git\WanKu_Server\uploads/'.$name);
- echo "<script language=\"javascript\">alert('上传成功');history.go(-1)</script>";
-}
-}
-
+	$sql1="select * from game_main_info where id=(select max(id) from game_main_info)";
+	$query=mysql_query($sql1);
+	@$row=mysql_fetch_array(@$query);
+	$imgid=$row[@id]+1;
+	if(img_update($imgid,@$_FILES['newimage']['tmp_name']))
+		echo "<script language=\"javascript\">alert('上传成功');window.close();</script>";
+ 	else
+ 	{
+ 		echo "<script language=\"javascript\">alert('上传失败，请重新上传');history.go(-1)</script>";
+ 	}
 
 ?>
