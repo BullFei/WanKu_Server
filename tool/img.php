@@ -35,7 +35,7 @@ defined("FROMPAGE") or die(header("location:index.html"));
 		if ($err !== null) {
 		    return 0;
 		} else {
-		    return "http://wanku-img-data.qiniudn.com/".$imgname."-short";
+		    return "http://wanku-img-data.qiniudn.com/".$imgname;
 		}
 	}
 	/*
@@ -76,7 +76,7 @@ defined("FROMPAGE") or die(header("location:index.html"));
 		if ($err !== null) {
 		    return 0;
 		} else {
-		    return "http://wanku-img-data.qiniudn.com/".$imgname."-short";
+		    return "http://wanku-img-data.qiniudn.com/".$imgname;
 		}
 	}
 	/*
