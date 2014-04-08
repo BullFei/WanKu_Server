@@ -14,7 +14,10 @@ define("FROMPAGE",true);
   $SQL="SELECT * FROM `game_main_info` where id = $serch_no";
   $query=mysql_query($SQL);
   @$row=mysql_fetch_array(@$query);
-
+ 
+ $SQL2="SELECT * FROM `game_full_info` where id = $serch_no";
+  $query2=mysql_query($SQL2);
+  @$row2=mysql_fetch_array(@$query2);
 
 ?>
 <html lang="zh-cn">
@@ -61,21 +64,160 @@ define("FROMPAGE",true);
 						<label >游戏名：</label>
 						<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row[name]); ?>">
 					</div>
+					
+					<div class="form-group">
+						<label >游戏类型：</label>
+						<select name="cid">
+							<?php 
+								if($row2[type_id]==1) $type="动作";
+								if($row2[type_id]==2) $type="休闲";
+								if($row2[type_id]==3) $type="益智";
+								if($row2[type_id]==4) $type="角色";
+								if($row2[type_id]==5) $type="策略";
+								if($row2[type_id]==6) $type="体育";
+								if($row2[type_id]==7) $type="竞速";
+								if($row2[type_id]==8) $type="射击";
+								if($row2[type_id]==9) $type="塔防";
+								if($row2[type_id]==10) $type="卡牌";
+								if($row2[type_id]==11) $type="经营";
+								if($row2[type_id]==12) $type="养成";
+								if($row2[type_id]==99) $type="其它";
+
+							?>
+					    <option value="0"><?php echo @$type ?></option>
+					    <?php
+					    $query=mysql_query("select * from game_type");
+					    while ($row3=mysql_fetch_array($query)) {
+					      echo "<option value=\"$row3[type_id]\">$row3[type_name]</option>";
+					        
+						}
+					    ?>
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label >游戏大小：</label>
+						<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row2[size]); ?>">
+					</div>
+					
+
+					<div class="form-group">
+						<label >系统需求：</label>
+						<select name="cid">
+							<?php 
+								if($row2[osreq_id]==1) $type="Android1.6及以上";
+								if($row2[osreq_id]==2) $type="Android2.1及以上";
+								if($row2[osreq_id]==3) $type="Android2.2及以上";
+								if($row2[osreq_id]==4) $type="Android2.3及以上";
+								if($row2[osreq_id]==5) $type="Android4.0及以上";
+
+							?>
+					    <option value="0"><?php echo @$type ?></option>
+					    <?php
+					    $query=mysql_query("select * from game_osreq");
+					    while ($row3=mysql_fetch_array($query)) {
+					      echo "<option value=\"$row3[osreq_id]\">$row3[osreq_name]</option>";
+					        
+						}
+					    ?>
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label >是否有内置广告：</label>
+						<select name="cid">
+							<?php 
+								if($row2[osreq_id]==1) $type="有";
+								if($row2[osreq_id]==2) $type="无";
+							?>
+						 <option value="0"><?php echo @$type ?></option>
+					   	 <option value=\"1">有</option>";
+					     <option value=\"2">无</option>";  
+						
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label >游戏版本：</label>
+						<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row2[version]); ?>">
+					</div>
+
+					<div class="form-group">
+						<label >游戏收费：</label>
+						<select name="cid">
+							<?php 
+								if($row2[cost_id]==0) $type="无收费";
+								if($row2[cost_id]==1) $type="广告收费";
+								if($row2[cost_id]==2) $type="内购";
+								if($row2[cost_id]==3) $type="道具收费";
+								if($row2[cost_id]==4) $type="关卡收费";
+								if($row2[cost_id]==5) $type="点卡收费";
+								if($row2[cost_id]==6) $type="商城收费";
+								if($row2[cost_id]==7) $type="强化收费";
+								if($row2[cost_id]==99) $type="其它";
+
+							?>
+					    <option value="0"><?php echo @$type ?></option>
+					    <?php
+					    $query=mysql_query("select * from game_cost");
+					    while ($row3=mysql_fetch_array($query)) {
+					      echo "<option value=\"$row3[cost_id]\">$row3[cost_name]</option>";
+					        
+						}
+					    ?>
+					  </select>
+					</div>
 
 					<label for="exampleInputEmail1">游戏评语：</label>
 					<textarea class="form-control" rows="3"><?php echo htmtocode(@$row[cmt]); ?></textarea>
 					
 					<div class="form-group">
 						<label for="exampleInputFile">游戏主截图：</label>
-						<img src="<?php echo htmtocode(@$row[img]); ?>">
+						<ul class="listfile">
+
 						
+						<li>
+
+							<img src="<?php if(img_query($_GET['id'])!==0) echo htmtocode(@$row[img]); ?>">
+							<span class="filename">
+							 
+							 <input  type="file"  name="newimage1">
+							<input class="btn btn-info" type="submit" name="update1" value="确认上传">
+							<input class="btn btn-info" type="submit" name="del1" value="删除图片">
+							</span>
+							
+						</li>
+						
+
+						<li>
+
+							<img src="<?php if(img_query($_GET['id'],2)!==0) echo htmtocode(@$row2['img-1']); ?>">
+							<span class="filename">
+							 
+							 <input  type="file"  name="newimage2">
+							<input class="btn btn-info" type="submit" name="update2" value="确认上传">
+							<input class="btn btn-info" type="submit" name="del2" value="删除图片">
+							</span>
+
+						</li>
+							
+					
+
+						 <li>
+							<img src="<?php if(img_query($_GET['id'],3)!==0) echo htmtocode(@$row2['img-2']); ?>">
+							<span class="filename">
+							 
+							 <input  type="file"  name="newimage3">
+							<input class="btn btn-info" type="submit" name="update3" value="确认上传">
+							<input class="btn btn-info" type="submit" name="del3" value="删除图片">
+							</span>
+
+						</li>
+							
+						</ul>
 					</div>
-					
-					
-						<label >上传新的游戏主截图：</label>
-						<input type="file"  name="newimage">
-					   <br/>
-					   <label><a href="image_delete.php?id=<?php echo htmtocode(@$row[id]); ?>">删除图片</a></label>
+										
+						
 					
 					<center>
 					<input type="submit" class="btn btn-default" name="submit" value="提交">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -106,15 +248,91 @@ function checkAll(flag)
 </SCRIPT>
 </html>
 <?php
-	$sql1="select * from game_main_info where id=(select max(id) from game_main_info)";
-	$query=mysql_query($sql1);
-	@$row=mysql_fetch_array(@$query);
-	$imgid=$row[@id]+1;
-	if(img_update($imgid,@$_FILES['newimage']['tmp_name']))
-		echo "<script language=\"javascript\">alert('上传成功');window.close();</script>";
+if ($_POST['update1']) {
+	// $sql1="select * from game_main_info where id=(select max(id) from game_main_info)";
+	// $query=mysql_query($sql1);
+	// @$row=mysql_fetch_array(@$query);
+	// $imgid=$row[@id]+1;
+	$url = img_update($_GET['id'],$_FILES[@'newimage1']['tmp_name']);
+	if($url!==0){
+		  $sql="update `game_main_info` set img='$url' where id='$_GET[id]';";
+		   $query=mysql_query($sql);
+		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
+}
  	else
  	{
  		echo "<script language=\"javascript\">alert('上传失败，请重新上传');history.go(-1)</script>";
  	}
+}
 
+
+if ($_POST['update2']) {
+	$url = img_update($_GET['id'],$_FILES[@'newimage2']['tmp_name'],2);
+	if($url!==0){
+		$sql="update `game_full_info` set img-1='$url' where id='$_GET[id]';";
+		   $query=mysql_query($sql);
+		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
+}
+ 	else
+ 	{
+ 		echo "<script language=\"javascript\">alert('上传失败，请重新上传');history.go(-1)</script>";
+ 	}
+}
+
+
+if ($_POST['update3']) {
+	$url = img_update($_GET['id'],$_FILES[@'newimage3']['tmp_name'],3);
+	if($url!==0){
+		$sql="update `game_full_info` set img-2='' where id='$_GET[id]';";
+		  $query=mysql_query($sql);
+		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
+}
+ 	else
+ 	{
+ 		echo "<script language=\"javascript\">alert('上传失败，请重新上传');history.go(-1)</script>";
+ 	}
+}
+
+
+if ($_POST['del1']) {
+     $sql3="update `game_main_info` set img='' where id='$_GET[id]' ";
+      $query=mysql_query($sql3);
+
+    if(img_delete($_GET['id'])){
+		echo "<script language=\"javascript\">alert('删除失败，请重新删除');history.go(-1)</script>";
+    	}
+ 	else
+ 	{
+ 		echo "<script language=\"javascript\">alert('删除成功');history.go(-1)</script>";
+    
+ 	}
+}
+
+
+if ($_POST['del2']) {
+$sql3="update `game_full_info` set img-1='' where id='$_GET[id]' ";
+      $query=mysql_query($sql3);
+    if(img_delete($_GET['id'],2)){
+		echo "<script language=\"javascript\">alert('删除失败，请重新删除');history.go(-1)</script>";
+    	}
+ 	else
+ 	{
+ 		echo "<script language=\"javascript\">alert('删除成功');history.go(-1)</script>";
+    
+ 	}
+}
+
+
+if ($_POST['del3']) {
+$sql3="update `game_full_info` set 'img-2'='' where id='$_GET[id]' ";
+      $query=mysql_query($sql3);
+    if(img_delete($_GET['id'],3)){
+		echo "<script language=\"javascript\">alert('删除失败，请重新删除');history.go(-1)</script>";
+    	}
+ 	else
+ 	{
+ 		echo "<script language=\"javascript\">alert('删除成功');history.go(-1)</script>";
+    
+ 	}
+}
 ?>

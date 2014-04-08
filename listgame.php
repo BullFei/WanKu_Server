@@ -89,7 +89,7 @@ $query=mysql_query($SQL);
 
 							<td><input type="checkbox"></td>
 							<td><?php echo htmtocode(@$row[id]); ?></td>
-							<td><a href="editgame.php?id=<?php echo @$row[id];?>"><?php echo htmtocode(@$row[name]); ?></a></td>
+							<td><a href="image_edit.php?id=<?php echo @$row[id];?>"><?php echo htmtocode(@$row[name]); ?></a></td>
 							<td><?php echo htmtocode(@$row[cmt]); ?></td>
 							<td><?php echo htmtocode(@$row[img]); ?></td>
 							<?php
