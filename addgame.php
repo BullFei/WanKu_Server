@@ -58,6 +58,74 @@ define("FROMPAGE",true);
 						<label for="exampleInputEmail1">游戏名：</label>
 						<input type="email" class="form-control" id="exampleInputEmail1">
 					</div>
+
+					<div class="form-group">
+						<label >游戏类型：</label>
+						<select name="cid">
+							
+					    <option value="0"></option>
+					    <?php
+					    $query=mysql_query("select * from game_type");
+					    while ($row3=mysql_fetch_array($query)) {
+					      echo "<option value=\"$row3[type_id]\">$row3[type_name]</option>";
+					        
+						}
+					    ?>
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label >游戏大小：</label>
+						<input type="text" class="form-control" id="exampleInputEmail1" >
+					</div>
+					
+
+					<div class="form-group">
+						<label >系统需求：</label>
+						<select name="cid">
+							
+					    <option value="0"></option>
+					    <?php
+					    $query=mysql_query("select * from game_osreq");
+					    while ($row3=mysql_fetch_array($query)) {
+					      echo "<option value=\"$row3[osreq_id]\">$row3[osreq_name]</option>";
+					        
+						}
+					    ?>
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label >是否有内置广告：</label>
+						<select name="cid">
+							
+						 <option value="0"></option>
+					   	 <option value=\"1">有</option>";
+					     <option value=\"2">无</option>";  
+						
+					  </select>
+					</div>
+
+					<div class="form-group">
+						<label >游戏版本：</label>
+						<input type="text" class="form-control" id="exampleInputEmail1" >
+					</div>
+
+					<div class="form-group">
+						<label >游戏收费：</label>
+						<select name="cid">
+							
+					    <option value="0"></option>
+					    <?php
+					    $query=mysql_query("select * from game_cost");
+					    while ($row3=mysql_fetch_array($query)) {
+					      echo "<option value=\"$row3[cost_id]\">$row3[cost_name]</option>";
+					        
+						}
+					    ?>
+					  </select>
+					</div>
+
 					<label for="exampleInputEmail1">游戏评语：</label>
 					<textarea class="form-control" rows="3"></textarea>
 					<div class="form-group">
