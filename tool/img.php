@@ -12,7 +12,7 @@ defined("FROMPAGE") or die(header("location:index.html"));
 	function img_query($game_id,$flag=1)
 	{
 		require_once("qiniu/rs.php");
-		$bucket = "wanku-img-data";	//七牛库名
+		include("qiniukey.php");
 
 		if ($flag == 1){
 			$imgname="main-".$game_id.".jpg"; //图片名main-
@@ -24,10 +24,6 @@ defined("FROMPAGE") or die(header("location:index.html"));
 			$imgname="full-2-".$game_id.".jpg"; //图片名full-2-
 		}
 
-
-		$accessKey = 'Va6QOOgIChvvXK7YBlhT9UxPVuJJivhajbAtU38b';
-		$secretKey = 'kOpCxSzcXHs1176HS3vLKDhjlxWTcUKVIC-XT8AZ';
-
 		Qiniu_SetKeys($accessKey, $secretKey);
 		$client = new Qiniu_MacHttpClient(null);
 
@@ -35,7 +31,7 @@ defined("FROMPAGE") or die(header("location:index.html"));
 		if ($err !== null) {
 		    return 0;
 		} else {
-		    return "http://wanku-img-data.qiniudn.com/".$imgname."-short";
+		    return "http://wanku-img-data.qiniudn.com/".$imgname;
 		}
 	}
 	/*
@@ -51,8 +47,7 @@ defined("FROMPAGE") or die(header("location:index.html"));
 	{
 		require_once("qiniu/io.php");
 		require_once("qiniu/rs.php");
-
-		$bucket = "wanku-img-data";
+		include("qiniukey.php");
 
 		if ($flag == 1){
 			$imgname="main-".$game_id.".jpg"; //图片名main-
@@ -64,9 +59,6 @@ defined("FROMPAGE") or die(header("location:index.html"));
 			$imgname="full-2-".$game_id.".jpg"; //图片名full-2-
 		}
 
-		$accessKey = 'Va6QOOgIChvvXK7YBlhT9UxPVuJJivhajbAtU38b';
-		$secretKey = 'kOpCxSzcXHs1176HS3vLKDhjlxWTcUKVIC-XT8AZ';
-
 		Qiniu_SetKeys($accessKey, $secretKey);
 		$putPolicy = new Qiniu_RS_PutPolicy($bucket);
 		$upToken = $putPolicy->Token(null);
@@ -76,7 +68,7 @@ defined("FROMPAGE") or die(header("location:index.html"));
 		if ($err !== null) {
 		    return 0;
 		} else {
-		    return "http://wanku-img-data.qiniudn.com/".$imgname."-short";
+		    return "http://wanku-img-data.qiniudn.com/".$imgname;
 		}
 	}
 	/*
@@ -91,8 +83,7 @@ defined("FROMPAGE") or die(header("location:index.html"));
 	function img_delete($game_id,$flag=1)
 	{
 		require_once("qiniu/rs.php");
-
-		$bucket = "wanku-img-data";
+		include("qiniukey.php");
 
 		if ($flag == 1){
 			$imgname="main-".$game_id.".jpg"; //图片名main-
@@ -103,9 +94,6 @@ defined("FROMPAGE") or die(header("location:index.html"));
 		else if($flag == 3){
 			$imgname="full-2-".$game_id.".jpg"; //图片名full-2-
 		}
-
-		$accessKey = 'Va6QOOgIChvvXK7YBlhT9UxPVuJJivhajbAtU38b';
-		$secretKey = 'kOpCxSzcXHs1176HS3vLKDhjlxWTcUKVIC-XT8AZ';
 
 		Qiniu_SetKeys($accessKey, $secretKey);
 		$client = new Qiniu_MacHttpClient(null);
