@@ -1,9 +1,8 @@
 <?php 
+	define("FROMPAGE", true);
 	header("Content-Type: application/json; charset=utf-8");
-	$id = $_GET[id];
-	$conn = mysql_connect(SAE_MYSQL_HOST_S.':'.SAE_MYSQL_PORT,SAE_MYSQL_USER,SAE_MYSQL_PASS);
-	mysql_select_db(SAE_MYSQL_DB,$conn);
-	mysql_query("set names 'utf8'");
+	include("../tool/sql_read.php");
+	$id = @$_GET[@id];
 	if(empty($id))
 	{
 		$sql ="select id,name,cmt,img from game_main_info order by id desc limit 20";
@@ -16,9 +15,9 @@
 
 	$i=0;
 	while ($row = mysql_fetch_assoc($result)) {
-		$row[cmt] = urlencode($row[cmt]);
-		$row[name] = urlencode($row[name]);
-		$row[img] = urlencode($row[img]);
+		$row[@cmt] = urlencode($row[@cmt]);
+		$row[@name] = urlencode($row[@name]);
+		$row[@img] = urlencode($row[@img]);
 		$rows[$i] = $row;
 		$i++;
 	}
