@@ -10,15 +10,21 @@
 	}
 	else
 	{
-		$sql = "SELECT game_main_info.id, name, cmt, img, img1, img2, type_id, size, osreq_id, ad, version, cost_id FROM game_full_info, game_main_info WHERE game_full_info.id = game_main_info.id and game_main_info.id = $id";
+		$sql = "SELECT game_main_info.id, name, cmt, img, img1, img2, type_id, size, osreq_id, ad, version, cost_id FROM game_full_info, game_main_info WHERE game_full_info.id = $id and game_main_info.id = $id";
 	}
 	$result = mysql_query($sql);
 
-	$row = mysql_fetch_assoc($result);
+	if($row = mysql_fetch_assoc($result)){
 	$row[@cmt] = urlencode($row[@cmt]);
 	$row[@name] = urlencode($row[@name]);
 	$row[@img] = urlencode($row[@img]);
 	$row[@img1] = urlencode($row[@img1]);
 	$row[@img2] = urlencode($row[@img2]);
 	echo urldecode(json_encode($row));
+}
+else {
+	echo "{'error':'Not info exist'}";
+	return;
+}
+	
 ?>
