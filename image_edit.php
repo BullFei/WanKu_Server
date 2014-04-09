@@ -75,7 +75,7 @@ define("FROMPAGE",true);
 								if($row2[type_id]==5) $type="策略";
 								if($row2[type_id]==6) $type="体育";
 								if($row2[type_id]==7) $type="竞速";
-								if($row2[type_id]==8) $type="射击";
+								if($row2[type_id]==8) $type="射击";2
 								if($row2[type_id]==9) $type="塔防";
 								if($row2[type_id]==10) $type="卡牌";
 								if($row2[type_id]==11) $type="经营";
@@ -190,7 +190,7 @@ define("FROMPAGE",true);
 
 						<li>
 
-							<img src="<?php if(img_query($_GET['id'],2)!==0) echo htmtocode(@$row2['img-1']); ?>">
+							<img src="<?php if(img_query($_GET['id'],2)!==0) echo htmtocode(@$row2['img1']); ?>">
 							<span class="filename">
 							 
 							 <input  type="file"  name="newimage2">
@@ -203,7 +203,7 @@ define("FROMPAGE",true);
 					
 
 						 <li>
-							<img src="<?php if(img_query($_GET['id'],3)!==0) echo htmtocode(@$row2['img-2']); ?>">
+							<img src="<?php if(img_query($_GET['id'],3)!==0) echo htmtocode(@$row2['img2']); ?>">
 							<span class="filename">
 							 
 							 <input  type="file"  name="newimage3">
@@ -268,7 +268,7 @@ if (@$_POST['update1']) {
 if (@$_POST['update2']) {
 	$url = img_update($_GET['id'],$_FILES[@'newimage2']['tmp_name'],2);
 	if($url!==0){
-		$sql="update `game_full_info` set img-1='$url' where id='$_GET[id]';";
+		$sql="update `game_full_info` set img1='$url' where id='$_GET[id]';";
 		   $query=mysql_query($sql);
 		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
 }
@@ -282,7 +282,7 @@ if (@$_POST['update2']) {
 if (@$_POST['update3']) {
 	$url = img_update($_GET['id'],$_FILES[@'newimage3']['tmp_name'],3);
 	if($url!==0){
-		$sql="update `game_full_info` set img-2='' where id='$_GET[id]';";
+		$sql="update `game_full_info` set img2='' where id='$_GET[id]';";
 		  $query=mysql_query($sql);
 		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
 }
@@ -309,7 +309,7 @@ if (@$_POST['del1']) {
 
 
 if (@$_POST['del2']) {
-$sql3="update `game_full_info` set img-1='' where id='$_GET[id]' ";
+$sql3="update `game_full_info` set img1='' where id='$_GET[id]' ";
       $query=mysql_query($sql3);
     if(img_delete($_GET['id'],2)){
 		echo "<script language=\"javascript\">alert('删除失败，请重新删除');history.go(-1)</script>";
@@ -323,7 +323,7 @@ $sql3="update `game_full_info` set img-1='' where id='$_GET[id]' ";
 
 
 if (@$_POST['del3']) {
-$sql3="update `game_full_info` set 'img-2'='' where id='$_GET[id]' ";
+$sql3="update `game_full_info` set 'img2'='' where id='$_GET[id]' ";
       $query=mysql_query($sql3);
     if(img_delete($_GET['id'],3)){
 		echo "<script language=\"javascript\">alert('删除失败，请重新删除');history.go(-1)</script>";

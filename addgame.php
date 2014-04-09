@@ -126,7 +126,9 @@ define("FROMPAGE",true);
 
 					<label for="exampleInputEmail1">游戏评语：</label>
 					<textarea class="form-control" rows="3" name="cmt" title="请输入游戏评语" required></textarea>
-					<br/><br/>
+					<br/>
+					<label>*添加图片请到“图片管理”页面进行相应操作</label>
+					<br/>
 					
 					<center>
 					<input type="submit" class="btn btn-default" name="submit" value="提交">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -203,7 +205,7 @@ if (@$_POST['submit']) {
 	$query2=mysql_query($sql2);
 
 	if ($query && $query2) {
-			echo "<script language=\"javascript\">alert('添加成功');history.go(-1)</script>";
+			echo "<script language=\"javascript\">alert('添加成功'); window.location.href=\"listgame.php\";</script>";
 	}
 	else
 	{
