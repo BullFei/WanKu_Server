@@ -75,7 +75,7 @@ define("FROMPAGE",true);
 								if($row2[type_id]==5) $type="策略";
 								if($row2[type_id]==6) $type="体育";
 								if($row2[type_id]==7) $type="竞速";
-								if($row2[type_id]==8) $type="射击";2
+								if($row2[type_id]==8) $type="射击";
 								if($row2[type_id]==9) $type="塔防";
 								if($row2[type_id]==10) $type="卡牌";
 								if($row2[type_id]==11) $type="经营";
@@ -181,7 +181,7 @@ define("FROMPAGE",true);
 							<span class="filename">
 							 
 							 <input  type="file"  name="newimage1">
-							<input class="btn btn-info" type="submit" name="update1" value="确认上传">
+							<input class="btn btn-info" type="submit" name="update1" value="单独上传">
 							<input class="btn btn-info" type="submit" name="del1" value="删除图片">
 							</span>
 							
@@ -194,7 +194,7 @@ define("FROMPAGE",true);
 							<span class="filename">
 							 
 							 <input  type="file"  name="newimage2">
-							<input class="btn btn-info" type="submit" name="update2" value="确认上传">
+							<input class="btn btn-info" type="submit" name="update2" value="单独上传">
 							<input class="btn btn-info" type="submit" name="del2" value="删除图片">
 							</span>
 
@@ -207,7 +207,7 @@ define("FROMPAGE",true);
 							<span class="filename">
 							 
 							 <input  type="file"  name="newimage3">
-							<input class="btn btn-info" type="submit" name="update3" value="确认上传">
+							<input class="btn btn-info" type="submit" name="update3" value="单独上传">
 							<input class="btn btn-info" type="submit" name="del3" value="删除图片">
 							</span>
 
@@ -219,8 +219,8 @@ define("FROMPAGE",true);
 						
 					
 					<center>
-					<input type="submit" class="btn btn-default" name="submit" value="提交">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-					<button type="reset" class="btn btn-default">重置</button>
+					<input type="submit" class="btn btn-default" name="submit" value="修改">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+					<input type="submit" class="btn btn-default" name="submit2" value="上传图片">
 					</center>
 					
 				</form>
@@ -254,8 +254,8 @@ if (@$_POST['update1']) {
 	// $imgid=$row[@id]+1;
 	$url = img_update($_GET['id'],$_FILES[@'newimage1']['tmp_name']);
 	if($url!==0){
-		  $sql="update `game_main_info` set img='$url' where id='$_GET[id]';";
-		   $query=mysql_query($sql);
+	// 	  $sql="update `game_main_info` set img='$url' where id='$_GET[id]';";
+	// 	   $query=mysql_query($sql);
 		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
 }
  	else
@@ -268,8 +268,8 @@ if (@$_POST['update1']) {
 if (@$_POST['update2']) {
 	$url = img_update($_GET['id'],$_FILES[@'newimage2']['tmp_name'],2);
 	if($url!==0){
-		$sql="update `game_full_info` set img1='$url' where id='$_GET[id]';";
-		   $query=mysql_query($sql);
+	// 	$sql="update `game_full_info` set img1='$url' where id='$_GET[id]';";
+	// 	   $query=mysql_query($sql);
 		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
 }
  	else
@@ -282,8 +282,8 @@ if (@$_POST['update2']) {
 if (@$_POST['update3']) {
 	$url = img_update($_GET['id'],$_FILES[@'newimage3']['tmp_name'],3);
 	if($url!==0){
-		$sql="update `game_full_info` set img2='' where id='$_GET[id]';";
-		  $query=mysql_query($sql);
+	// 	$sql="update `game_full_info` set img2='' where id='$_GET[id]';";
+	// 	  $query=mysql_query($sql);
 		echo "<script language=\"javascript\">alert('上传成功');window.location.reload();</script>";
 }
  	else
@@ -363,5 +363,20 @@ if (@$_POST['submit']) {
 	 		
 	    echo "<script language=\"javascript\">alert('修改失败，请重新修改');history.go(-1)</script>";
 	}
+}
+
+if (@$_POST['submit2']) {
+	$up1=img_update($_GET['id'],$_FILES[@'newimage1']['tmp_name']);
+	$up2=img_update($_GET['id'],$_FILES[@'newimage2']['tmp_name'],2);
+	$up3=img_update($_GET['id'],$_FILES[@'newimage3']['tmp_name'],3);
+	if ($up1!==0 && $up2!==0 && $up3!==0){
+			echo "<script language=\"javascript\">alert('上传成功');window.close();</script>";
+	}
+	else
+	{
+	 		
+	    echo "<script language=\"javascript\">alert('上传失败，请重新上传');history.go(-1)</script>";
+	}
+
 }
 ?>
