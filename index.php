@@ -21,7 +21,7 @@ else
   }
   else
   {
-    echo "<p>用户名或密码错误！</p>";
+    echo "<script language=\"javascript\">alert('用户名或密码错误');history.go(-1)</script>";
   }
 }
 ?>

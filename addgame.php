@@ -113,7 +113,7 @@ define("FROMPAGE",true);
 						<label >游戏收费：</label>
 						<select name="cost">
 							
-					    <!-- <option value="0"></option> -->
+					    <option value="-1"></option>
 					    <?php
 					    $query=mysql_query("select * from game_cost");
 					    while ($row3=mysql_fetch_array($query)) {
@@ -174,7 +174,7 @@ function CheckPost()
                 info.ad.focus();
                 return false;
             }
-            if(info.cost.value=="0")
+            if(info.cost.value=="-1")
             {
                 alert("请输入收费类型");
                 info.cost.focus();
