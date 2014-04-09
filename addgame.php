@@ -1,6 +1,4 @@
-
 <?php
-
   session_start();
 if (!isset($_SESSION['admin_name'])) {
 	header("location:index.php");
@@ -53,10 +51,10 @@ define("FROMPAGE",true);
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<form action="" enctype="multipart/form-data" method="post" name="upform">
+				<form action="" enctype="multipart/form-data" method="post" name="info" onsubmit="return CheckPost();"/>
 					<div class="form-group">
 						<label >游戏名：</label>
-						<input type="text" class="form-control" name="name">
+						<input type="text" class="form-control" name="name" title="请输入游戏名" required>
 					</div>
 
 					<div class="form-group">
@@ -76,7 +74,7 @@ define("FROMPAGE",true);
 
 					<div class="form-group">
 						<label >游戏大小：</label>
-						<input type="text" class="form-control" name="size" >
+						<input type="text" class="form-control" name="size" title="请输入游戏大小" required>
 					</div>
 					
 
@@ -108,14 +106,14 @@ define("FROMPAGE",true);
 
 					<div class="form-group">
 						<label >游戏版本：</label>
-						<input type="text" class="form-control" name="version" >
+						<input type="text" class="form-control" name="version" title="请输入游戏版本" required>
 					</div>
 
 					<div class="form-group">
 						<label >游戏收费：</label>
 						<select name="cost">
 							
-					    <option value="0"></option>
+					    <!-- <option value="0"></option> -->
 					    <?php
 					    $query=mysql_query("select * from game_cost");
 					    while ($row3=mysql_fetch_array($query)) {
@@ -127,7 +125,7 @@ define("FROMPAGE",true);
 					</div>
 
 					<label for="exampleInputEmail1">游戏评语：</label>
-					<textarea class="form-control" rows="3" name="cmt"></textarea>
+					<textarea class="form-control" rows="3" name="cmt" title="请输入游戏评语" required></textarea>
 					<br/><br/>
 					
 					<center>
@@ -155,6 +153,38 @@ function checkAll(flag)
 	}
 }
 
+
+function CheckPost()
+{
+      if(info.type.value=="0")
+            {
+                alert("请输入游戏类型");
+                info.type.focus();
+                return false;
+            }
+            if(info.req.value=="0")
+            {
+                alert("请输入系统需求");
+                info.req.focus();
+                return false;
+            }
+            if(info.ad.value=="0")
+            {
+                alert("请输入是否有广告");
+                info.ad.focus();
+                return false;
+            }
+            if(info.cost.value=="0")
+            {
+                alert("请输入收费类型");
+                info.cost.focus();
+                return false;
+            }
+
+}
+
+
+</script>
 </SCRIPT>
 </html>
 
