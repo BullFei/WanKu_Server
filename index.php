@@ -1,6 +1,6 @@
 <?php 
 define("FROMPAGE",true);
-include "tool/sql.php";
+include "tool/sql_read.php";
 include "tool/passwdmd5.php"
 ?>
 <!DOCTYPE html>

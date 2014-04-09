@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
- include("/tool/sql.php");
+ include("/tool/sql_read.php");
  include("/tool/img.php");
 
  @$serch_no=intval($_GET['id']); 
@@ -62,12 +62,12 @@ define("FROMPAGE",true);
 				<form action="" enctype="multipart/form-data" method="post" name="upform">
 					<div class="form-group">
 						<label >游戏名：</label>
-						<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row[name]); ?>">
+						<input type="text" class="form-control" name="name" value="<?php echo htmtocode(@$row[name]); ?>">
 					</div>
 					
 					<div class="form-group">
 						<label >游戏类型：</label>
-						<select name="cid">
+						<select name="type">
 							<?php 
 								if($row2[type_id]==1) $type="动作";
 								if($row2[type_id]==2) $type="休闲";
@@ -97,13 +97,13 @@ define("FROMPAGE",true);
 
 					<div class="form-group">
 						<label >游戏大小：</label>
-						<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row2[size]); ?>">
+						<input type="text" class="form-control" name="size" value="<?php echo htmtocode(@$row2[size]); ?>">
 					</div>
 					
 
 					<div class="form-group">
 						<label >系统需求：</label>
-						<select name="cid">
+						<select name="req">
 							<?php 
 								if($row2[osreq_id]==1) $type="Android1.6及以上";
 								if($row2[osreq_id]==2) $type="Android2.1及以上";
@@ -125,26 +125,26 @@ define("FROMPAGE",true);
 
 					<div class="form-group">
 						<label >是否有内置广告：</label>
-						<select name="cid">
+						<select name="ad">
 							<?php 
-								if($row2[osreq_id]==1) $type="有";
-								if($row2[osreq_id]==2) $type="无";
+								if($row2[ad]==1) $type="有";
+								if($row2[ad]==2) $type="无";
 							?>
 						 <option value="0"><?php echo @$type ?></option>
-					   	 <option value=\"1">有</option>";
-					     <option value=\"2">无</option>";  
+					   	 <option value="1">有</option>
+					     <option value="2">无</option>
 						
 					  </select>
 					</div>
 
 					<div class="form-group">
 						<label >游戏版本：</label>
-						<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo htmtocode(@$row2[version]); ?>">
+						<input type="text" class="form-control" name="version" value="<?php echo htmtocode(@$row2[version]); ?>">
 					</div>
 
 					<div class="form-group">
 						<label >游戏收费：</label>
-						<select name="cid">
+						<select name="cost">
 							<?php 
 								if($row2[cost_id]==0) $type="无收费";
 								if($row2[cost_id]==1) $type="广告收费";
@@ -169,7 +169,7 @@ define("FROMPAGE",true);
 					</div>
 
 					<label for="exampleInputEmail1">游戏评语：</label>
-					<textarea class="form-control" rows="3"><?php echo htmtocode(@$row[cmt]); ?></textarea>
+					<textarea class="form-control" name="cmt" rows="3"><?php echo htmtocode(@$row[cmt]); ?></textarea>
 					
 					<div class="form-group">
 						<label for="exampleInputFile">游戏主截图：</label>
@@ -248,7 +248,7 @@ function checkAll(flag)
 </SCRIPT>
 </html>
 <?php
-if ($_POST['update1']) {
+if (@$_POST['update1']) {
 	// $sql1="select * from game_main_info where id=(select max(id) from game_main_info)";
 	// $query=mysql_query($sql1);
 	// @$row=mysql_fetch_array(@$query);
@@ -266,7 +266,7 @@ if ($_POST['update1']) {
 }
 
 
-if ($_POST['update2']) {
+if (@$_POST['update2']) {
 	$url = img_update($_GET['id'],$_FILES[@'newimage2']['tmp_name'],2);
 	if($url!==0){
 		$sql="update `game_full_info` set img-1='$url' where id='$_GET[id]';";
@@ -280,7 +280,7 @@ if ($_POST['update2']) {
 }
 
 
-if ($_POST['update3']) {
+if (@$_POST['update3']) {
 	$url = img_update($_GET['id'],$_FILES[@'newimage3']['tmp_name'],3);
 	if($url!==0){
 		$sql="update `game_full_info` set img-2='' where id='$_GET[id]';";
@@ -294,7 +294,7 @@ if ($_POST['update3']) {
 }
 
 
-if ($_POST['del1']) {
+if (@$_POST['del1']) {
      $sql3="update `game_main_info` set img='' where id='$_GET[id]' ";
       $query=mysql_query($sql3);
 
@@ -309,7 +309,7 @@ if ($_POST['del1']) {
 }
 
 
-if ($_POST['del2']) {
+if (@$_POST['del2']) {
 $sql3="update `game_full_info` set img-1='' where id='$_GET[id]' ";
       $query=mysql_query($sql3);
     if(img_delete($_GET['id'],2)){
@@ -323,7 +323,7 @@ $sql3="update `game_full_info` set img-1='' where id='$_GET[id]' ";
 }
 
 
-if ($_POST['del3']) {
+if (@$_POST['del3']) {
 $sql3="update `game_full_info` set 'img-2'='' where id='$_GET[id]' ";
       $query=mysql_query($sql3);
     if(img_delete($_GET['id'],3)){
@@ -334,5 +334,35 @@ $sql3="update `game_full_info` set 'img-2'='' where id='$_GET[id]' ";
  		echo "<script language=\"javascript\">alert('删除成功');history.go(-1)</script>";
     
  	}
+}
+
+
+if (@$_POST['submit']) {
+	$sql3="SELECT * FROM `game_full_info` where id='$_GET[id]'";
+	$query3=mysql_query($sql3);
+	
+	if (@$row3=mysql_fetch_array(@$query3)) {
+		$sql="update `game_full_info` set type_id='$_POST[type]',size='$_POST[size]',osreq_id='$_POST[req]',ad='$_POST[ad]',version='$_POST[version]',cost_id='$_POST[cost]' where id='$_GET[id]'";
+		$query=mysql_query($sql);
+	}
+	else{
+		$img1="http://wanku-img-data.qiniudn.com/full-1-".$_GET[id].".jpg";
+		$img2="http://wanku-img-data.qiniudn.com/full-2-".$_GET[id].".jpg";
+
+		$sql="insert into `game_full_info` (id,img1,img2,type_id,size,osreq_id,ad,version,cost_id) values ('$_GET[id]','$img1','$img2','$_POST[type]','$_POST[size]','$_POST[req]','$_POST[ad]','$_POST[version]','$_POST[cost]')";
+		$query=mysql_query($sql);
+	}
+
+	$sql2="update `game_main_info` set name='$_POST[name]',cmt='$_POST[cmt]' where id='$_GET[id]'";
+	$query2=mysql_query($sql2);
+
+	if ($query && $query2) {
+			echo "<script language=\"javascript\">alert('修改成功');history.go(-1)</script>";
+	}
+	else
+	{
+	 		
+	    echo "<script language=\"javascript\">alert('修改失败，请重新修改');history.go(-1)</script>";
+	}
 }
 ?>

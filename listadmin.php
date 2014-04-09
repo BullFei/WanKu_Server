@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
- include("/tool/sql.php");
+ include("/tool/sql_read.php");
 
   $SQL="SELECT admin_id,admin_name,admin_password,admin_privileges FROM `admin_info` order by admin_id ";
   $query=mysql_query($SQL);

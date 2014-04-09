@@ -8,8 +8,9 @@ if (!isset($_SESSION['admin_name'])) {
 
 
 define("FROMPAGE",true);
- include("/tool/sql.php");
-
+ include("/tool/sql_read.php");
+ $SQL="SELECT * FROM `recomment_list` order by rcmd_id ";
+  $query=mysql_query($SQL);
  ?>
 <html lang="zh-cn">
 <head>
@@ -48,55 +49,47 @@ define("FROMPAGE",true);
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<table class="table table-condensed table-striped table-hover" contenteditable="true">
+				<table class="table table-condensed table-striped table-hover" >
 					<thead>
 						<tr>
 							<th><input type="checkbox" onclick="checkAll(this)"></th>
 							<th>编号</th>
-							<th>产品</th>
-							<th>交付时间</th>
-							<th>状态</th>
+							<th>推荐游戏名</th>
+							<th>游戏版本</th>
+							<th>推荐评语</th>
+							<th>推荐人</th>
+							<th>推荐人邮箱</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr style="background-color:#999999;">
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>TB - Monthly</td>
-							<td>01/04/2012</td>
-							<td>Default</td>
+						<?php while(@$row=mysql_fetch_array($query)){ 
+							if (@$row[admin_id]%2==0) {
+								echo '<tr style="background-color:#999999;">';
+							}
+							else
+								echo '<tr style="background-color:#cccccc;">';
+							?>   
+							<td><input type="checkbox" ></td>
+							<td><?php echo htmtocode(@$row[rcmd_id]); ?></td>
+							<td><?php echo htmtocode(@$row[rcmd_name]); ?></td>
+							<td><?php echo htmtocode(@$row[rcmd_version]); ?></td>
+							<td><?php echo htmtocode(@$row[rcmd_cmt]); ?></td>
+							<td><?php echo htmtocode(@$row[rcmd_cmter]); ?></td>
+							<td><?php echo htmtocode(@$row[rcmd_cmter_email]); ?></td>
+
 						</tr>
-						<tr style="background-color:#cccccc;">
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>TB - Monthly</td>
-							<td>01/04/2012</td>
-							<td>Approved</td>
-						</tr>
-						<tr style="background-color:#999999;">
-							<td><input type="checkbox"></td>
-							<td>2</td>
-							<td>TB - Monthly</td>
-							<td>02/04/2012</td>
-							<td>Declined</td>
-						</tr>
-						<tr style="background-color:#cccccc;" >
-							<td><input type="checkbox"></td>
-							<td>3</td>
-							<td>TB - Monthly</td>
-							<td>03/04/2012</td>
-							<td>Pending</td>
-						</tr>
-						<tr style="background-color:#999999;">
-							<td><input type="checkbox"></td>
-							<td>4</td>
-							<td>TB - Monthly</td>
-							<td>04/04/2012</td>
-							<td>Call in to confirm</td>
-						</tr>
+						<?php
+					}
+					 ?>
 					</tbody>
 				</table>
+				
 
+				<center>
+					<input type="submit" class="btn btn-default" name="submit1" value="采纳推荐">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+					<input type="submit" class="btn btn-default" name="submit2" value="删除推荐">
+				</center>
+					
 			</div>
 		</div>
 	</div>
@@ -118,3 +111,11 @@ function checkAll(flag)
 
 </SCRIPT>
 </html>
+
+
+<?php
+
+	
+
+
+?>

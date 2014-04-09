@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
- include("/tool/sql.php");
+ include("/tool/sql_read.php");
 
  @$serch_no=intval($_GET['id']); 
   $SQL="SELECT * FROM `game_main_info` where id = $serch_no";
