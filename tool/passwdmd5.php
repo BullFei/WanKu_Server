@@ -2,7 +2,7 @@
 /*
 登录密码加密算法
 */
-defined("FROMPAGE") or die(header("location:/")); 
+defined("FROMPAGE") or die(header("location:index.html")); 
 function ChangeMsg($msgu,$msgp)
 {
   if($msgu!="" && $msgp!="")
