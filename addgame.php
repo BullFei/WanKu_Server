@@ -7,12 +7,11 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
- include("/tool/sql.php");
+ include("/tool/sql_read.php");
   $sql1="select * from game_main_info where id=(select max(id) from game_main_info)";
   $query=mysql_query($sql1);
   @$row=mysql_fetch_array(@$query);
   $imgid=$row[@id]+1;
-
 ?>
 <html lang="zh-cn"> 
 <head>
@@ -53,15 +52,15 @@ define("FROMPAGE",true);
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<form>
+				<form action="" enctype="multipart/form-data" method="post" name="upform">
 					<div class="form-group">
-						<label for="exampleInputEmail1">游戏名：</label>
-						<input type="email" class="form-control" id="exampleInputEmail1">
+						<label >游戏名：</label>
+						<input type="text" class="form-control" name="name">
 					</div>
 
 					<div class="form-group">
 						<label >游戏类型：</label>
-						<select name="cid">
+						<select name="type">
 							
 					    <option value="0"></option>
 					    <?php
@@ -76,13 +75,13 @@ define("FROMPAGE",true);
 
 					<div class="form-group">
 						<label >游戏大小：</label>
-						<input type="text" class="form-control" id="exampleInputEmail1" >
+						<input type="text" class="form-control" name="size" >
 					</div>
 					
 
 					<div class="form-group">
 						<label >系统需求：</label>
-						<select name="cid">
+						<select name="req">
 							
 					    <option value="0"></option>
 					    <?php
@@ -97,7 +96,7 @@ define("FROMPAGE",true);
 
 					<div class="form-group">
 						<label >是否有内置广告：</label>
-						<select name="cid">
+						<select name="ad">
 							
 						 <option value="0"></option>
 					   	 <option value=\"1">有</option>";
@@ -108,12 +107,12 @@ define("FROMPAGE",true);
 
 					<div class="form-group">
 						<label >游戏版本：</label>
-						<input type="text" class="form-control" id="exampleInputEmail1" >
+						<input type="text" class="form-control" name="version" >
 					</div>
 
 					<div class="form-group">
 						<label >游戏收费：</label>
-						<select name="cid">
+						<select name="cost">
 							
 					    <option value="0"></option>
 					    <?php
@@ -127,14 +126,11 @@ define("FROMPAGE",true);
 					</div>
 
 					<label for="exampleInputEmail1">游戏评语：</label>
-					<textarea class="form-control" rows="3"></textarea>
-					<div class="form-group">
-						<label for="exampleInputFile">游戏主截图：</label>
-						<input type="file" id="exampleInputFile">
-					</div>
+					<textarea class="form-control" rows="3" name="cmt"></textarea>
+					<br/><br/>
 					
 					<center>
-					<button type="submit" class="btn btn-default">提交</button>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+					<input type="submit" class="btn btn-default" name="submit" value="提交">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 					<button type="reset" class="btn btn-default">重置</button>
 					</center>
 				</form>
@@ -160,3 +156,29 @@ function checkAll(flag)
 
 </SCRIPT>
 </html>
+
+<?php
+if (@$_POST['submit']) {
+	
+		$img1="http://wanku-img-data.qiniudn.com/full-1-".$imgid.".jpg";
+		$img2="http://wanku-img-data.qiniudn.com/full-2-".$imgid.".jpg";
+		$img="http://wanku-img-data.qiniudn.com/main-".$imgid.".jpg";
+		
+	$sql="insert into `game_full_info` (id,img1,img2,type_id,size,osreq_id,ad,version,cost_id) values ('$imgid','$img1','$img2','$_POST[type]','$_POST[size]','$_POST[req]','$_POST[ad]','$_POST[version]','$_POST[cost]')";
+	$query=mysql_query($sql);
+	
+
+	$sql2="insert into `game_main_info` (id,name,cmt,img) values ('','$_POST[name]','$_POST[cmt]','$img')";
+	$query2=mysql_query($sql2);
+
+	if ($query && $query2) {
+			echo "<script language=\"javascript\">alert('添加成功');history.go(-1)</script>";
+	}
+	else
+	{
+	 		
+	    echo "<script language=\"javascript\">alert('添加失败，请重新添加');history.go(-1)</script>";
+	}
+}
+
+?>

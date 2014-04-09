@@ -45,13 +45,15 @@ include "tool/img.php";
 
 
 
- // include("/tool/sql.php");
+ include("/tool/sql_read.php");
 
 	// 		$sql="update `game_main_info` set img='sdasdasdas' where id=23;";
 	// 	  $query=mysql_query($sql);
 
-
-
+$sql3="SELECT * FROM `game_full_info` where id='21'";
+	$query3=mysql_query($sql3);
+	@$row=mysql_fetch_array(@$query3);
+	echo @$row[id];
 
 
 

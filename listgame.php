@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
-include("/tool/sql.php");
+include("/tool/sql_read.php");
 
 
 //获取数据库总条目数
