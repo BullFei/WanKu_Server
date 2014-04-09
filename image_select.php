@@ -1,4 +1,4 @@
-<!Doctype html>
+
 <?php
 
   session_start();
@@ -7,13 +7,14 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
- include("/tool/sql_read.php");
+ include("tool/sql_read.php");
 
  @$serch_no=intval($_GET['id']); 
   $SQL="SELECT * FROM `game_main_info` where id = $serch_no";
   $query=mysql_query($SQL);
   @$row=mysql_fetch_array(@$query);
 ?>
+<!Doctype html>
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8">

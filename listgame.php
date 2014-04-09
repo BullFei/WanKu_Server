@@ -1,4 +1,3 @@
-<!Doctype html>
 <?php
 
 session_start();
@@ -7,7 +6,7 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
-include("/tool/sql_read.php");
+include("tool/sql_read.php");
 
 
 //获取数据库总条目数
@@ -30,6 +29,7 @@ $query=mysql_query($SQL);
 
 
 ?>
+<!Doctype html>
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8">

@@ -1,4 +1,4 @@
-<!Doctype html>
+
 <?php
 
   session_start();
@@ -8,9 +8,10 @@ if (!isset($_SESSION['admin_name'])) {
 
 
 define("FROMPAGE",true);
- include("/tool/sql_read.php");
+ include("tool/sql_read.php");
 
  ?>
+ <!Doctype html>
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8">

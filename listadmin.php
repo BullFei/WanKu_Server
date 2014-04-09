@@ -1,4 +1,3 @@
-<!Doctype html>
 <?php
 
   session_start();
@@ -7,11 +6,12 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 define("FROMPAGE",true);
- include("/tool/sql_read.php");
+ include("tool/sql_read.php");
 
   $SQL="SELECT admin_id,admin_name,admin_password,admin_privileges FROM `admin_info` order by admin_id ";
   $query=mysql_query($SQL);
 ?>
+<!Doctype html>
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8">
